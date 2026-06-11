@@ -449,7 +449,7 @@ export function transformChannelToFormDefaults(
 /**
  * Build the setting JSON string from form extra settings
  */
-function buildSettingJSON(formData: ChannelFormValues): string {
+export function buildSettingJSON(formData: ChannelFormValues): string {
   const settingObj = {
     force_format: formData.force_format || false,
     thinking_to_content: formData.thinking_to_content || false,
@@ -464,7 +464,7 @@ function buildSettingJSON(formData: ChannelFormValues): string {
 /**
  * Build the settings JSON string (for type-specific config like vertex_key_type)
  */
-function buildSettingsJSON(formData: ChannelFormValues): string {
+export function buildSettingsJSON(formData: ChannelFormValues): string {
   let settingsObj: Record<string, unknown> = {}
 
   // Try to parse existing settings first

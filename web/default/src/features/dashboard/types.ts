@@ -33,6 +33,66 @@ export interface QuotaDataItem {
   quota?: number
 }
 
+export interface ProfitOverviewItem {
+  group: string
+  provider_type: number
+  provider_name: string
+  channel_id: number
+  channel_name: string
+  model_name: string
+  quota: number
+  effective_quota?: number
+  estimated_cost_quota?: number
+  request_count: number
+  effective_request_count?: number
+  prompt_tokens: number
+  completion_tokens: number
+  total_tokens: number
+  first_request_at: number
+  last_request_at: number
+}
+
+export interface ProfitOverviewTrendItem {
+  time: string
+  group: string
+  provider_type: number
+  provider_name: string
+  channel_id: number
+  channel_name: string
+  quota: number
+  effective_quota?: number
+  estimated_cost_quota?: number
+  request_count: number
+  effective_request_count?: number
+  prompt_tokens: number
+  completion_tokens: number
+  total_tokens: number
+}
+
+export interface ProfitChannelMultiplierRule {
+  key: string
+  multiplier: number
+  effective_at: number
+  note?: string
+}
+
+export interface ProfitExcludedUser {
+  username: string
+  reason: string
+  effective_time: string
+  affected_requests: number
+}
+
+export interface ProfitOverviewData {
+  items: ProfitOverviewItem[]
+  groups?: ProfitOverviewItem[]
+  providers: ProfitOverviewItem[]
+  trends: ProfitOverviewTrendItem[]
+  multipliers: Record<string, number>
+  multiplier_rules?: ProfitChannelMultiplierRule[]
+  excluded_users?: ProfitExcludedUser[]
+}
+
 // ============================================================================
 // Uptime Monitoring Types
 // ============================================================================

@@ -331,6 +331,24 @@ func UpdateOption(c *gin.Context) {
 			})
 			return
 		}
+	case "ProfitProviderMultipliers":
+		err = model.ValidateProfitProviderMultipliers(option.Value.(string))
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{
+				"success": false,
+				"message": err.Error(),
+			})
+			return
+		}
+	case "ProfitChannelMultiplierRules":
+		err = model.ValidateProfitChannelMultiplierRules(option.Value.(string))
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{
+				"success": false,
+				"message": err.Error(),
+			})
+			return
+		}
 	}
 	err = model.UpdateOption(option.Key, option.Value.(string))
 	if err != nil {

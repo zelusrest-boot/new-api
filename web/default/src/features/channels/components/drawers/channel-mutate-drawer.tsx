@@ -126,6 +126,8 @@ import {
 import { useChannelMutateForm } from '../../hooks/use-channel-mutate-form'
 import {
   CHANNEL_FORM_DEFAULT_VALUES,
+  buildSettingJSON,
+  buildSettingsJSON,
   channelFormSchema,
   channelsQueryKeys,
   transformChannelToFormDefaults,
@@ -758,12 +760,20 @@ export function ChannelMutateDrawer({
   }, [isEditing, form, t])
 
   const createModeFetcher = useCallback(async (): Promise<string[]> => {
+    const values = form.getValues()
     const response = await fetchModels({
-      type: form.getValues('type'),
-      key: form.getValues('key'),
-      base_url: form.getValues('base_url') || '',
+      type: values.type,
+      key: values.key,
+      base_url: values.base_url || '',
+      models: values.models || '',
+      setting: buildSettingJSON(values),
+      settings: buildSettingsJSON(values),
+      header_override: values.header_override || '',
     })
     if (response.success && response.data) {
+      if (response.fallback && response.message) {
+        toast.info(response.message)
+      }
       return response.data
     }
     throw new Error(response.message || 'No models fetched from upstream')

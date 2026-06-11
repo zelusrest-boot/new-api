@@ -144,7 +144,11 @@ export function FetchModelsDialog({
           const list = Array.isArray(response.data) ? response.data : []
           setFetchedModels(list)
           setSelectedModels(existingModels)
-          toast.success(t('Fetched {{count}} models', { count: list.length }))
+          if (response.fallback && response.message) {
+            toast.info(response.message)
+          } else {
+            toast.success(t('Fetched {{count}} models', { count: list.length }))
+          }
         } else {
           toast.error(response.message || t('Failed to fetch models'))
           setFetchedModels([])

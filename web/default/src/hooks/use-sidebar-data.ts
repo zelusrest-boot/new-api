@@ -26,9 +26,11 @@ import {
   LayoutDashboard,
   ListTodo,
   MessageSquare,
+  Monitor,
   Radio,
   Settings,
   Ticket,
+  TrendingUp,
   User,
   Users,
   Wallet,
@@ -120,6 +122,16 @@ export function useSidebarData(): SidebarData {
             title: t('Channels'),
             url: '/channels',
             icon: Radio,
+          },
+          {
+            title: t('Monitor'),
+            url: '/monitor',
+            icon: Monitor,
+          },
+          {
+            title: t('Profit Overview'),
+            url: '/dashboard/profit',
+            icon: TrendingUp,
           },
           {
             title: t('Models'),

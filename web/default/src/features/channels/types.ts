@@ -158,6 +158,7 @@ export interface ChannelBalanceResponse {
 
 export interface FetchModelsResponse {
   success: boolean
+  fallback?: boolean
   message?: string
   data?: string[]
 }

@@ -35,6 +35,7 @@ import {
   ShieldCheck,
   TerminalSquare,
   Timer,
+  TrendingUp,
   type LucideIcon,
 } from 'lucide-react'
 import { motion, useReducedMotion } from 'motion/react'
@@ -83,6 +84,7 @@ type DashboardActionPath =
   | '/wallet'
   | '/playground'
   | '/channels'
+  | '/dashboard/$section'
   | '/usage-logs'
   | '/pricing'
 
@@ -98,6 +100,9 @@ interface QuickAction {
   title: string
   description: string
   to: DashboardActionPath
+  params?: {
+    section: 'profit'
+  }
   icon: LucideIcon
   adminOnly?: boolean
 }
@@ -419,7 +424,7 @@ function QuickActionItem(props: { action: QuickAction }) {
     <Button
       variant='outline'
       className='h-auto justify-start rounded-xl px-3 py-3 text-left'
-      render={<Link to={props.action.to} />}
+      render={<Link to={props.action.to} params={props.action.params} />}
     >
       <span className='bg-muted flex size-9 shrink-0 items-center justify-center rounded-lg'>
         <Icon className='size-4' aria-hidden='true' />
@@ -444,7 +449,7 @@ function CompactQuickAction(props: { action: QuickAction }) {
       variant='outline'
       size='sm'
       className='bg-background/70 h-8 min-w-24 gap-1.5 px-2.5'
-      render={<Link to={props.action.to} />}
+      render={<Link to={props.action.to} params={props.action.params} />}
     >
       <Icon data-icon='inline-start' />
       <span>{props.action.title}</span>
@@ -534,6 +539,14 @@ export function OverviewDashboard() {
         description: t('Configure upstream providers and routing.'),
         to: '/channels',
         icon: RadioTower,
+        adminOnly: true,
+      },
+      {
+        title: t('Profit Overview'),
+        description: t('Review group multipliers and estimated profit.'),
+        to: '/dashboard/$section',
+        params: { section: 'profit' },
+        icon: TrendingUp,
         adminOnly: true,
       },
       {

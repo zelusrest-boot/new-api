@@ -133,6 +133,7 @@ func generateDefaultSidebarConfigForRole(userRole int) string {
 		defaultConfig["admin"] = map[string]interface{}{
 			"enabled":    true,
 			"channel":    true,
+			"monitor":    true,
 			"models":     true,
 			"redemption": true,
 			"user":       true,
@@ -143,6 +144,7 @@ func generateDefaultSidebarConfigForRole(userRole int) string {
 		defaultConfig["admin"] = map[string]interface{}{
 			"enabled":    true,
 			"channel":    true,
+			"monitor":    true,
 			"models":     true,
 			"redemption": true,
 			"user":       true,

@@ -17,7 +17,13 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 For commercial licensing, please contact support@quantumnous.com
 */
 import { api } from '@/lib/api'
-import type { QuotaDataItem, UptimeGroupResult } from './types'
+import type {
+  ProfitChannelMultiplierRule,
+  ProfitExcludedUser,
+  ProfitOverviewData,
+  QuotaDataItem,
+  UptimeGroupResult,
+} from './types'
 
 // ============================================================================
 // Dashboard APIs
@@ -43,6 +49,40 @@ export async function getUserQuotaDates(
     endpoint,
     { params }
   )
+  return res.data
+}
+
+export async function getProfitOverview(params: {
+  start_timestamp: number
+  end_timestamp: number
+}) {
+  const res = await api.get<{ success: boolean; data: ProfitOverviewData }>(
+    '/api/data/profit',
+    { params }
+  )
+  return res.data
+}
+
+export async function updateProfitProviderMultipliers(
+  rules: ProfitChannelMultiplierRule[]
+) {
+  const res = await api.put<{
+    success: boolean
+    message: string
+    data: {
+      multipliers: Record<string, number>
+      rules: ProfitChannelMultiplierRule[]
+    }
+  }>('/api/data/profit/multipliers', { rules })
+  return res.data
+}
+
+export async function updateProfitExcludedUsers(users: ProfitExcludedUser[]) {
+  const res = await api.put<{
+    success: boolean
+    message: string
+    data: ProfitExcludedUser[]
+  }>('/api/data/profit/excluded-users', { users })
   return res.data
 }
 

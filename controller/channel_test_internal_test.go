@@ -1,11 +1,14 @@
 package controller
 
 import (
+	"errors"
+	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/QuantumNous/new-api/common"
 	"github.com/QuantumNous/new-api/dto"
+	"github.com/QuantumNous/new-api/model"
 	"github.com/QuantumNous/new-api/pkg/billingexpr"
 	relaycommon "github.com/QuantumNous/new-api/relay/common"
 	"github.com/QuantumNous/new-api/types"
@@ -79,4 +82,22 @@ func TestResolveChannelTestUserIDUsesRequestUser(t *testing.T) {
 
 	require.NoError(t, err)
 	require.Equal(t, 2, userID)
+}
+
+func TestFetchModelsFallbackResponseUsesExistingModels(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	recorder := httptest.NewRecorder()
+	ctx, _ := gin.CreateTestContext(recorder)
+	channel := &model.Channel{Models: " claude-opus-4-8,claude-opus-4-8,,claude-sonnet-4-5 "}
+
+	ok := fetchModelsFallbackResponse(ctx, channel.GetModels(), errors.New("status code: 403, response: <html>Forbidden</html>"))
+
+	require.True(t, ok)
+	require.Equal(t, http.StatusOK, recorder.Code)
+	require.JSONEq(t, `{
+		"success": true,
+		"fallback": true,
+		"message": "上游获取模型失败（status code: 403），已使用当前渠道已有模型",
+		"data": ["claude-opus-4-8", "claude-sonnet-4-5"]
+	}`, recorder.Body.String())
 }

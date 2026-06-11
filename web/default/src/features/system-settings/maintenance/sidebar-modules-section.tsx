@@ -130,6 +130,14 @@ export function SidebarModulesSection({
         title: t('Channels'),
         description: t('Configure upstream providers and routing.'),
       },
+      monitor: {
+        title: t('Monitor'),
+        description: t('View channel and model availability.'),
+      },
+      profit: {
+        title: t('Profit Overview'),
+        description: t('Review supplier multipliers and estimated profit.'),
+      },
       models: {
         title: t('Models'),
         description: t('Manage catalog visibility and pricing.'),

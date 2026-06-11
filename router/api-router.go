@@ -316,11 +316,19 @@ func SetApiRouter(router *gin.Engine) {
 		dataRoute := apiRouter.Group("/data")
 		dataRoute.GET("/", middleware.AdminAuth(), controller.GetAllQuotaDates)
 		dataRoute.GET("/users", middleware.AdminAuth(), controller.GetQuotaDatesByUser)
+		dataRoute.GET("/profit", middleware.AdminAuth(), controller.GetProfitOverview)
+		dataRoute.PUT("/profit/multipliers", middleware.AdminAuth(), controller.UpdateProfitProviderMultipliers)
+		dataRoute.PUT("/profit/excluded-users", middleware.AdminAuth(), controller.UpdateProfitExcludedUsers)
 		dataRoute.GET("/self", middleware.UserAuth(), controller.GetUserQuotaDates)
 
 		logRoute.Use(middleware.CORS(), middleware.CriticalRateLimit())
 		{
 			logRoute.GET("/token", middleware.TokenAuthReadOnly(), controller.GetLogByKey)
+		}
+		monitorRoute := apiRouter.Group("/monitor")
+		monitorRoute.Use(middleware.AdminAuth())
+		{
+			monitorRoute.GET("/availability", controller.GetMonitorAvailability)
 		}
 		groupRoute := apiRouter.Group("/group")
 		groupRoute.Use(middleware.AdminAuth())
